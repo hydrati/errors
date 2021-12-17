@@ -1,8 +1,3 @@
-# errors
- Golang Errors with Error Code
-
-## Example
-```golang
 package main
 
 import (
@@ -35,5 +30,3 @@ func main() {
 		errors.Is(context.DeadlineExceeded, context.DeadlineExceeded),
 	)
 }
-
-```
