@@ -18,7 +18,7 @@ func (e codeError) Message() string {
 	if msg, ok := getMessageMap()[e.Code()]; ok {
 		return msg
 	} else {
-		return DEFAULT_ERROR_MESSAGE
+		return defaultErrMsg
 	}
 }
 

@@ -16,7 +16,7 @@ var (
 )
 
 const (
-	DEFAULT_ERROR_MESSAGE = "unknown error"
+	defaultErrMsg = "unknown error"
 )
 
 func CodeWithMsg(code int, message string) CodeError {
