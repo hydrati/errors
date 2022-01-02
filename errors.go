@@ -30,6 +30,14 @@ func SetCodeMsg(code int, message string) {
 	m[code] = message
 }
 
+func Map(code int, err error) int {
+	if !hasCode(code) {
+		panic(fmt.Sprintf("error: hasn't err code %d", code))
+	}
+	_err_m[err] = code
+	return code
+}
+
 func Code(code int) CodeError {
 	if hasCode(code) {
 		panic(fmt.Sprintf("error: has err code %d", code))

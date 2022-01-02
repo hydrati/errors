@@ -6,6 +6,14 @@ func Is(err error, target error) bool {
 
 func Into(e error) (err CodeError, ok bool) {
 	err, ok = e.(CodeError)
+	if !ok {
+		v, ok := _err_m[e]
+		if !ok {
+			return nil, false
+		} else {
+			return Code(v), true
+		}
+	}
 	return err, ok
 }
 
