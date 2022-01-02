@@ -8,6 +8,7 @@ type CodeError interface {
 	Message() string
 	Equals(error) bool
 	Error() string
+	Inject(val interface{})
 }
 
 type MsgTable = map[int]string

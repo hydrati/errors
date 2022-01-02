@@ -19,14 +19,18 @@ const (
 	defaultErrMsg = "unknown error"
 )
 
-func CodeWithMsg(code int, message string) CodeError {
-	err := Code(code)
-	SetCodeMsg(code, message)
+func Create(code int, message string) CodeError {
+	if hasCode(code) {
+		panic(fmt.Sprintf("error: has err code %d", code))
+	}
+	err := intInto(code)
+	Set(code, message)
 	return err
 }
 
-func SetCodeMsg(code int, message string) {
+func Set(code int, message string) {
 	m := getMessageMap()
+	_codes[code] = none{}
 	m[code] = message
 }
 
@@ -39,14 +43,10 @@ func Map(code int, err error) int {
 }
 
 func Code(code int) CodeError {
-	if hasCode(code) {
-		panic(fmt.Sprintf("error: has err code %d", code))
+	if !hasCode(code) {
+		panic(fmt.Sprintf("error: hasn't err code %d", code))
 	}
 	return intInto(code)
-}
-
-func Register(kv MsgTable) {
-	_messages.Store(kv)
 }
 
 func init() {

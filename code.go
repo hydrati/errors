@@ -3,6 +3,7 @@ package errors
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"strconv"
 )
 
@@ -19,6 +20,31 @@ func (e codeError) Message() string {
 		return msg
 	} else {
 		return defaultErrMsg
+	}
+}
+
+func (e codeError) Inject(v interface{}) {
+	val := reflect.ValueOf(v).Elem()
+	typ := val.Type()
+
+	if typ.Kind() != reflect.Struct {
+		panic("coderror: inject needs a struct value")
+	}
+
+	for i := 0; i < val.NumField(); i += 1 {
+		field := typ.Field(i)
+		if !field.IsExported() {
+			continue
+		}
+
+		v, ok := field.Tag.Lookup("coderror")
+		if ok {
+			if v == "code" {
+				val.Field(i).Set(reflect.ValueOf(e.Code()))
+			} else if v == "message" {
+				val.Field(i).Set(reflect.ValueOf(e.Message()))
+			}
+		}
 	}
 }
 
